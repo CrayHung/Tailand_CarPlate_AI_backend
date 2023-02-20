@@ -27,10 +27,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping
-    public ResponseEntity<String> hi(){
-        return ResponseEntity.ok("hi");
-    }
+    // @GetMapping
+    // public ResponseEntity<String> hi(){
+    //     return ResponseEntity.ok("hi");
+    // }
 
     @GetMapping("/getAllCars")
     public ResponseEntity<List<Users>> getAllUsers(){

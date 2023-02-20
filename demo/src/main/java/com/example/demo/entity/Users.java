@@ -8,12 +8,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "lprtable")
+@Table(name="lprtable")
 public class Users{
 
 @Id
-@GeneratedValue(strategy = GenerationType.AUTO)
-// @GeneratedValue(strategy = GenerationType.IDENTITY)
+@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
