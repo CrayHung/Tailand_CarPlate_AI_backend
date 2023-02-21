@@ -48,7 +48,7 @@ public class WebSocketController {
 
     //lpr傳入資料的API
     @PostMapping("/event")
-    public ResponseEntity<Users> addOrUpdate(@RequestBody Users user){
+    public String addOrUpdate(@RequestBody Users user){
         Users users = null;
         try{
             users = userService.addOrUpdateUser(user);
@@ -66,7 +66,7 @@ public class WebSocketController {
           e.printStackTrace();
         }
       }
-        return new ResponseEntity<Users>(users , HttpStatus.OK);
+        return "success";
      }
 
 

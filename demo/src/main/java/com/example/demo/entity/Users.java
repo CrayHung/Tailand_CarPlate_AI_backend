@@ -83,4 +83,15 @@ public class Users{
         this.imagepath=imagepath;
     }
 
+
+    @Override
+    public String toString() {
+      return "{" +
+        " id='" + getid() + "'" +
+        ", plateNumber='" + getplatenumber() + "'" +
+        ", recognitionTimeStr='" + getrecognitiontimestr() + "'" +
+        ", imagePath='" + getimagepath() + "'" +
+        ", cameraId='" + getcameraId() + "'" +
+        "}";
+    }
 }
