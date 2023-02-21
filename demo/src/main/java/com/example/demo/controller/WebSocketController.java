@@ -25,6 +25,8 @@ import com.example.SocketTextHandler;
 import com.example.demo.entity.Users;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @CrossOrigin
@@ -34,6 +36,15 @@ public class WebSocketController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @GetMapping("/hi")
+     public ResponseEntity<String> hi(){
+        return ResponseEntity.ok("hi");
+    }
+    
 
     //lpr傳入資料的API
     @PostMapping("/event")
@@ -46,7 +57,7 @@ public class WebSocketController {
             ex.getMessage();
         }
 
-        /* 透過 ws 傳更新資料給前端 */
+        /* 透過 ws 傳更新資料給前端 , 此處傳一個 "update" 的text */
     for (WebSocketSession session : SocketTextHandler.getSessionList()) {
         try {
           session.sendMessage(
@@ -59,17 +70,25 @@ public class WebSocketController {
      }
 
 
-      /*當websocket丟給前端後,前端call getAllCars這個API更新前端資料 */
-      @GetMapping("/getAllCars")
-      public ResponseEntity<List<Users>> getAllUsers(){
-          List<Users> users = null;
-          try{
-              users = userService.getAllUsers();
-          }
-          catch(Exception ex){
-              ex.getMessage();
-          }
-          return new ResponseEntity<List<Users>>(users , HttpStatus.OK);
+      /*當websocket丟給前端後,前端call 這個API更新前端資料 */
+      @GetMapping("/cams/latest")
+      public Map<String, Users> getAllLatestRecordByCam() {
+        Map<String, Users> latestCamsMap = new HashMap<>();
+    
+        latestCamsMap.put("cam1", latestCamsTool("cam1"));
+        latestCamsMap.put("cam2", latestCamsTool("cam2"));
+
+        return latestCamsMap;
+      }
+    
+      public Users latestCamsTool(String cameraId) {
+        Optional<Users> opr = userRepository.findAllLatestRecordByCameraId(cameraId);
+    
+        if (opr.isPresent()) {
+          return opr.get();
+        } else {
+          return null;
+        }
       }
 
 }
